@@ -58,6 +58,7 @@ int main(int argc, char *argv[])
     IO::Debug(t("delta_url_extracted") + ": " + deltaUrl);
     DOWNLOAD::downloadFile(deltaUrl, imageFile);
     HASH::replaceHash(imageFile);
+    IO::Info(t("calculating_hash"));
     auto segmentMd5 = nlohmann::json::parse(std::string(updateData["data"]["version"]["segmentMd5"]));
     for (auto &md5 : segmentMd5)
         md5["md5"] = HASH::MD5FileSegment(imageFile, md5["startpos"], md5["endpos"]);

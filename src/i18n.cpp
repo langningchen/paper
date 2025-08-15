@@ -43,6 +43,7 @@ namespace I18N
         {"delta_url_extracted", {{Language::ENGLISH, "Delta URL extracted"}, {Language::CHINESE, "已提取增量更新网址"}}},
 
         // Hash processing
+        {"calculating_hash", {{Language::ENGLISH, "Calculating hash..."}, {Language::CHINESE, "正在计算哈希值..."}}},
         {"calculating_full_md5", {{Language::ENGLISH, "Calculating full file MD5..."}, {Language::CHINESE, "正在计算完整文件的 MD5 值..."}}},
         {"searching_hash_patterns", {{Language::ENGLISH, "Searching for hash patterns in file"}, {Language::CHINESE, "正在文件中搜索哈希模式"}}},
         {"file_size", {{Language::ENGLISH, "File size"}, {Language::CHINESE, "文件大小"}}},
