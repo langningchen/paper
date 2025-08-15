@@ -133,12 +133,15 @@ std::string HASH::MD5File(const std::string &filename)
 
     picohash_ctx_t ctx;
     picohash_init_md5(&ctx);
-    size_t bytesRead = 0;
     size_t totalBytes = 0;
-    while (file.read(buffer.data(), bufferSize) || (bytesRead = file.gcount()) > 0)
+    while (true)
     {
-        picohash_update(&ctx, buffer.data(), bytesRead);
-        totalBytes += bytesRead;
+        file.read(buffer.data(), bufferSize);
+        std::streamsize bytesRead = file.gcount();
+        if (bytesRead <= 0)
+            break;
+        picohash_update(&ctx, buffer.data(), static_cast<size_t>(bytesRead));
+        totalBytes += static_cast<size_t>(bytesRead);
     }
     unsigned char digest[PICOHASH_MD5_DIGEST_LENGTH];
     picohash_final(&ctx, digest);
@@ -192,12 +195,15 @@ std::string HASH::SHA1File(const std::string &filename)
 
     picohash_ctx_t ctx;
     picohash_init_sha1(&ctx);
-    size_t bytesRead = 0;
     size_t totalBytes = 0;
-    while (file.read(buffer.data(), bufferSize) || (bytesRead = file.gcount()) > 0)
+    while (true)
     {
-        picohash_update(&ctx, buffer.data(), bytesRead);
-        totalBytes += bytesRead;
+        file.read(buffer.data(), bufferSize);
+        std::streamsize bytesRead = file.gcount();
+        if (bytesRead <= 0)
+            break;
+        picohash_update(&ctx, buffer.data(), static_cast<size_t>(bytesRead));
+        totalBytes += static_cast<size_t>(bytesRead);
     }
     unsigned char digest[PICOHASH_SHA1_DIGEST_LENGTH];
     picohash_final(&ctx, digest);
