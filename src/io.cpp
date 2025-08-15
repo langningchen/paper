@@ -19,6 +19,9 @@
 #include "i18n.hpp"
 #include "argc.hpp"
 #include <conio.h>
+#include <iomanip>
+#include <chrono>
+#include <cmath>
 
 void IO::SetColor(WORD color)
 {
@@ -71,5 +74,64 @@ void IO::Error(std::string message)
 {
     SetColor(FOREGROUND_RED | FOREGROUND_INTENSITY);
     std::cout << t("error_prefix") << " " << message << std::endl;
+    SetColor(FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_INTENSITY);
+}
+
+void IO::ShowProgress(double percentage, size_t downloaded, size_t total)
+{
+    static double lastPercentage = -1;
+    static auto lastUpdateTime = std::chrono::steady_clock::now();
+
+    auto now = std::chrono::steady_clock::now();
+    auto timeDiff = std::chrono::duration_cast<std::chrono::milliseconds>(now - lastUpdateTime).count();
+
+    if (percentage < 100.0 && timeDiff < 100 && std::abs(percentage - lastPercentage) < 1.0)
+        return;
+
+    lastPercentage = percentage;
+    lastUpdateTime = now;
+
+    int barWidth = 50;
+    int filledWidth = static_cast<int>(percentage * barWidth / 100.0);
+
+    SetColor(FOREGROUND_GREEN | FOREGROUND_INTENSITY);
+    std::cout << "\r[";
+    for (int i = 0; i < barWidth; ++i)
+    {
+        if (i < filledWidth)
+            std::cout << "=";
+        else if (i == filledWidth && percentage < 100.0)
+            std::cout << ">";
+        else
+            std::cout << " ";
+    }
+
+    std::string downloadedStr, totalStr;
+    if (downloaded >= 1024 * 1024)
+        downloadedStr = std::to_string(downloaded / (1024 * 1024)) + " MB";
+    else if (downloaded >= 1024)
+        downloadedStr = std::to_string(downloaded / 1024) + " KB";
+    else
+        downloadedStr = std::to_string(downloaded) + " B";
+
+    if (total >= 1024 * 1024)
+        totalStr = std::to_string(total / (1024 * 1024)) + " MB";
+    else if (total >= 1024)
+        totalStr = std::to_string(total / 1024) + " KB";
+    else
+        totalStr = std::to_string(total) + " B";
+
+    std::cout << "] " << std::fixed << std::setprecision(1) << percentage << "% ("
+              << downloadedStr << "/" << totalStr << ")" << std::flush;
+
+    if (percentage >= 100.0)
+        std::cout << std::endl;
+
+    SetColor(FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_INTENSITY);
+}
+
+void IO::FlushProgress()
+{
+    std::cout << std::endl;
     SetColor(FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_INTENSITY);
 }

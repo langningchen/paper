@@ -34,4 +34,6 @@ public:
     static void Info(std::string message);
     static void Warn(std::string message);
     static void Error(std::string message);
+    static void ShowProgress(double percentage, size_t downloaded, size_t total);
+    static void FlushProgress();
 };

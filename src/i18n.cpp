@@ -180,6 +180,10 @@ namespace I18N
         {"download_url", {{Language::ENGLISH, "Download URL"}, {Language::CHINESE, "下载网址"}}},
         {"target_filename", {{Language::ENGLISH, "Target filename"}, {Language::CHINESE, "目标文件名"}}},
         {"download_completed", {{Language::ENGLISH, "Download completed"}, {Language::CHINESE, "下载完成"}}},
+        {"failed_initialize_wininet", {{Language::ENGLISH, "Failed to initialize WinINet"}, {Language::CHINESE, "初始化 WinINet 失败"}}},
+        {"failed_open_url", {{Language::ENGLISH, "Failed to open URL"}, {Language::CHINESE, "打开网址失败"}}},
+        {"failed_create_output_file", {{Language::ENGLISH, "Failed to create output file"}, {Language::CHINESE, "创建输出文件失败"}}},
+        {"could_not_get_content_length", {{Language::ENGLISH, "Could not get content length, proceeding without progress info"}, {Language::CHINESE, "无法获取内容长度，将在无进度信息的情况下继续"}}},
 
         // Hash processing messages
         {"found_sha256_hash_at", {{Language::ENGLISH, "Found SHA256 hash pattern at position"}, {Language::CHINESE, "在位置找到 SHA256 哈希模式"}}},

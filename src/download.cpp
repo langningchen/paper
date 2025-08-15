@@ -18,7 +18,9 @@
 #include "download.hpp"
 #include "io.hpp"
 #include "i18n.hpp"
+#include "define.hpp"
 #include <wininet.h>
+#include <fstream>
 
 tstring DOWNLOAD::toTString(std::string s) { return tstring(s.begin(), s.end()); }
 
@@ -65,15 +67,45 @@ nlohmann::json DOWNLOAD::getUpdateData(CAPTURE::CAPTURE_RESULT captureResult)
 }
 void DOWNLOAD::downloadFile(std::string url, std::string filename)
 {
-    IO::Debug(t("checking_file_exists") + ": " + filename);
     if (std::filesystem::exists(filename) && IO::Confirm(t("file_exists_skip_download")))
-    {
-        IO::Debug(t("download_skipped"));
         return;
-    }
+
     IO::Info(t("downloading_image_file"));
-    IO::Debug(t("download_url") + ": " + url);
-    IO::Debug(t("target_filename") + ": " + filename);
-    URLDownloadToFile(NULL, toTString(url).c_str(), toTString(filename).c_str(), 0, NULL);
-    IO::Debug(t("download_completed"));
+
+    HINTERNET hInternet = InternetOpen(TEXT(""), INTERNET_OPEN_TYPE_DIRECT, NULL, NULL, 0);
+    if (!hInternet)
+        DIE(t("failed_initialize_wininet"));
+
+    HINTERNET hUrl = InternetOpenUrl(hInternet, toTString(url).c_str(), NULL, 0, INTERNET_FLAG_RELOAD, 0);
+    if (!hUrl)
+        DIE(t("failed_open_url"));
+
+    DWORD contentLength = 0;
+    DWORD bufferSize = sizeof(contentLength);
+    HttpQueryInfo(hUrl, HTTP_QUERY_CONTENT_LENGTH | HTTP_QUERY_FLAG_NUMBER,
+                  &contentLength, &bufferSize, NULL);
+
+    std::ofstream outFile(filename, std::ios::binary);
+    if (!outFile.is_open())
+        DIE(t("failed_create_output_file"));
+
+    char buffer[1024 * 1024];
+    DWORD bytesRead = 0;
+    size_t totalDownloaded = 0;
+
+    while (InternetReadFile(hUrl, buffer, sizeof(buffer), &bytesRead) && bytesRead > 0)
+    {
+        outFile.write(buffer, bytesRead);
+        totalDownloaded += bytesRead;
+
+        if (contentLength > 0)
+        {
+            double percentage = (static_cast<double>(totalDownloaded) / contentLength) * 100.0;
+            IO::ShowProgress(percentage, totalDownloaded, contentLength);
+        }
+    }
+
+    outFile.close();
+    InternetCloseHandle(hUrl);
+    InternetCloseHandle(hInternet);
 }
