@@ -28,6 +28,7 @@ jobs:
           mingw-w64-x86_64-gcc
           mingw-w64-x86_64-cmake
           mingw-w64-x86_64-make
+          make
           
     - name: Configure CMake
       shell: msys2 {0}
@@ -40,7 +41,7 @@ jobs:
       shell: msys2 {0}
       run: |
         cd build
-        make
+        mingw32-make
         
     - name: Test executable
       shell: msys2 {0}
