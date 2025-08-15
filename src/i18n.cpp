@@ -235,7 +235,7 @@ namespace I18N
 
         // UI elements
         {"confirm_prefix", {{Language::ENGLISH, "[CONFIRM]"}, {Language::CHINESE, "[确认]"}}},
-        {"confirm_suffix", {{Language::ENGLISH, "[y/N]"}, {Language::CHINESE, "[是(y)/否(n)]"}}},
+        {"confirm_suffix", {{Language::ENGLISH, "[y/N]"}, {Language::CHINESE, "[是(y)/否(N)]"}}},
         {"input_prefix", {{Language::ENGLISH, "[INPUT]"}, {Language::CHINESE, "[输入]"}}},
         {"debug_prefix", {{Language::ENGLISH, "[DEBUG]"}, {Language::CHINESE, "[调试]"}}},
         {"info_prefix", {{Language::ENGLISH, "[INFO]"}, {Language::CHINESE, "[信息]"}}},
