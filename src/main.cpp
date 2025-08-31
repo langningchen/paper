@@ -39,9 +39,18 @@ int main(int argc, char *argv[])
     CORE::Header();
     CORE::ElevateNow();
     CAPTURE::CAPTURE_RESULT result;
-    CAPTURE capturer;
-    IO::Debug(t("starting_packet_capture"));
-    capturer.capture(result);
+    
+    if (ARGC::HasArg("no-capture"))
+    {
+        IO::Info("No-capture mode enabled - manual input required");
+        CAPTURE::manualInput(result);
+    }
+    else
+    {
+        CAPTURE capturer;
+        IO::Debug(t("starting_packet_capture"));
+        capturer.capture(result);
+    }
     // result.productUrl = "/product/1708583443/f730c7fa72bd3871/ota/checkVersion";
     // result.request_body = nlohmann::json::parse(R"({ "timestamp": 1755184821, "sign": "4f2a475cdb69b45f76c5fa3cde2fd4ff", "mid": "7E92000008705369", "productId": "1708583443", "version": "4.7.7", "networkType": "WIFI" })");
     //     result.productUrl = "/product/1700649481/8b2d1ce6a5d9e922/ota/checkVersion";

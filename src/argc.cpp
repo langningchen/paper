@@ -93,11 +93,13 @@ void ARGC::showHelp()
     std::cout << "  -h, --help         Show this help message" << std::endl;
     std::cout << "  --port=<port>      Set HTTP server port (default: 80)" << std::endl;
     std::cout << "  --image=<file>     Set image file name (default: image.img)" << std::endl;
+    std::cout << "  --no-capture       Skip packet capture and allow manual input" << std::endl;
     std::cout << std::endl;
     std::cout << "Examples:" << std::endl;
     std::cout << "  paper --verbose" << std::endl;
     std::cout << "  paper --port=8080 --image=firmware.img" << std::endl;
     std::cout << "  paper -v --port=9000" << std::endl;
+    std::cout << "  paper --no-capture" << std::endl;
 }
 
 std::string ARGC::GetArg(const std::string &key, const std::string &defaultValue)

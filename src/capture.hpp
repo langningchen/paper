@@ -35,6 +35,7 @@ public:
     };
 
     static void capture(CAPTURE_RESULT &result);
+    static void manualInput(CAPTURE_RESULT &result);
 
 private:
     static void packet_handler(u_char *param, const struct pcap_pkthdr *header, const u_char *pkt_data);

@@ -198,3 +198,31 @@ void CAPTURE::capture(CAPTURE_RESULT &result)
     IO::Debug(t("closing_capture_handle"));
     pcap_close(packetCaptureHandle);
 }
+
+void CAPTURE::manualInput(CAPTURE_RESULT &result)
+{
+    IO::Info("Manual input mode - please provide the capture data:");
+    
+    // Get product URL
+    std::string productUrl;
+    IO::Input("Enter product URL (e.g., /product/1708583443/f730c7fa72bd3871/ota/checkVersion):", productUrl);
+    result.productUrl = productUrl;
+    
+    // Get request body JSON
+    std::string jsonInput;
+    IO::Info("Enter request body JSON (example format):");
+    IO::Info("{ \"timestamp\": 1755184821, \"sign\": \"4f2a475cdb69b45f76c5fa3cde2fd4ff\", \"mid\": \"7E92000008705369\", \"productId\": \"1708583443\", \"version\": \"4.7.7\", \"networkType\": \"WIFI\" }");
+    IO::Input("Request body JSON:", jsonInput);
+    
+    try
+    {
+        result.request_body = nlohmann::json::parse(jsonInput);
+        IO::Info("JSON parsed successfully");
+        IO::Debug("Product URL: " + result.productUrl);
+        IO::Debug("Request body: " + result.request_body.dump());
+    }
+    catch (const nlohmann::json::parse_error &e)
+    {
+        DIE("Failed to parse JSON: " + std::string(e.what()));
+    }
+}
