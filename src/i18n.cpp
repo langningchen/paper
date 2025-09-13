@@ -58,7 +58,7 @@ namespace I18N
         {"setting_socket_options", {{Language::ENGLISH, "Setting socket options..."}, {Language::CHINESE, "正在设置套接字选项..."}}},
         {"binding_to_port", {{Language::ENGLISH, "Binding to port"}, {Language::CHINESE, "正在绑定端口"}}},
         {"starting_listen", {{Language::ENGLISH, "Starting to listen for connections..."}, {Language::CHINESE, "正在开始监听连接..."}}},
-        {"server_started_press_x", {{Language::ENGLISH, "Server started, press [x] to stop，please check updates on your dictpen"}, {Language::CHINESE, "服务器已启动，请在词典笔上检查更新，按 [x] 键停止"}}},
+        {"server_started_press_x", {{Language::ENGLISH, "Server started, press [x] to stop, please check updates on your dictpen"}, {Language::CHINESE, "服务器已启动，请在词典笔上检查更新，按 [x] 键停止"}}},
         {"server_listening", {{Language::ENGLISH, "Server listening on all interfaces, port"}, {Language::CHINESE, "服务器正在监听所有网络接口，端口"}}},
         {"failed_accept_connection", {{Language::ENGLISH, "Failed to accept client connection"}, {Language::CHINESE, "客户端连接失败"}}},
         {"new_client_connected", {{Language::ENGLISH, "New client connection accepted"}, {Language::CHINESE, "已接受新的客户端连接"}}},
